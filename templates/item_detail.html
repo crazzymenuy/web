@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="item-detail">
+    {% if item.image_url %}
+        <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image">
+    {% else %}
+        <img src="{{ url_for('static', filename='img/no-image.png') }}" alt="Зображення недоступне" class="item-image">
+    {% endif %}
+    <h2 class="item-name">{{ item.name }}</h2>
+    <p class="price">{{ item.price }} грн</p>
+    <p class="item-description">{{ item.description }}</p>
+    <div class="button-container">
+        <a href="javascript:void(0);" class="btn buy-button" onclick="openModal('{{ item.id }}', '{{ item.name }}', '{{ item.price }}');">Купити</a>
+        <a href="{{ url_for('shop') }}" class="btn">Назад до магазину</a>
+    </div>
+</div>
+
+<!-- Модальне вікно -->
+<div id="buyModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalItemName"></h2>
+        <p id="modalItemPrice"></p>
+        <form action="{{ url_for('process_order2') }}" method="POST">
+    <input type="hidden" name="item_id" id="modalItemId">
+    <label for="name">Ім'я:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="phone">Номер телефону:</label>
+    <input type="tel" id="phone" name="phone" required>
+    <button type="submit" class="btn">Замовити</button>
+</form>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        function openModal(itemId, itemName, itemPrice) {
+            document.getElementById('modalItemId').value = itemId;
+            document.getElementById('modalItemName').innerText = itemName;
+            document.getElementById('modalItemPrice').innerText = itemPrice + ' грн';
+            document.getElementById('buyModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('buyModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('buyModal')) {
+                closeModal();
+            }
+        }
+    </script>
+{% endblock %}

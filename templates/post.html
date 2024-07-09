@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="post">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        {% if post.image_url %}
+            {% if post.image_url.endswith('.mp4') %}
+                <video controls>
+                    <source src="{{ post.image_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% else %}
+                <img src="{{ post.image_url }}" alt="{{ post.title }}">
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Xtreme</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/iconmain.jpg') }}" type="image/jpeg">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/social_links.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/item_detail.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ready.css') }}">
+    {% if request.endpoint == 'main_menu' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main_menu.css') }}">
+    {% endif %}
+    {% if request.endpoint == 'cart' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+    {% endif %}
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <div class="burger-menu" id="burger-menu">
+                &#9776;
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="{{ url_for('main_menu') }}">Головна</a>
+                <a href="{{ url_for('index') }}">Блог</a>
+                <a href="{{ url_for('shop') }}" class="shop-button">Магазин</a>
+            </div>
+            <div class="cart-icon">
+                <a href="{{ url_for('cart') }}">
+                    Кошик {{ session.get('cart_count', 0) }}
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+    <div class="footer-links">
+        <a href="https://www.instagram.com" target="_blank">Інстаграм</a>
+        <a href="https://www.facebook.com" target="_blank">Фейсбук</a>
+        <a href="https://www.youtube.com" target="_blank">YouTube</a>
+    </div>
+    <div class="footer-contact">
+        <p>Адреса: Миколаїв, просп. Центральний, 4, офіс 15</p>
+        <p>Телефон: (068) 80-500-80</p>
+        <p>Робочі години: Пн—Пт 10:00—19:00, Сб 10:00—15:00</p>
+        <p><a href="https://copter.com.ua/?utm_source=share" target="_blank">Докладніше</a></p>
+    </div>
+    <p>&copy; 2024 Drone Xtreme</p>
+</footer>
+
+
+    {% block scripts %}
+    <script>
+        function addCsrfToken() {
+            const csrfToken = "{{ csrf_token() }}";
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.setAttribute('type', 'hidden');
+                hiddenInput.setAttribute('name', 'csrf_token');
+                hiddenInput.setAttribute('value', csrfToken);
+                form.appendChild(hiddenInput);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', addCsrfToken);
+
+        document.getElementById('burger-menu').addEventListener('click', function() {
+            const navLinks = document.getElementById('nav-links');
+            if (navLinks.style.display === 'block') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'block';
+            }
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Ласкаво просимо в Drone Xtreme</h1>
+            <p>Саморобні дрони для цивільних і військових цілей. Якість, надійність, інновації.</p>
+            <a href="{{ url_for('shop') }}" class="btn hero-btn">Перейти до магазину</a>
+        </div>
+    </div>
+
+    <section class="about-section">
+        <h2>Про нас</h2>
+        <p>Компанія Drone Xtreme базується в м.Миколаїв та м.Ужгород і ставить за мету виробляти FPV дрони для українського війська, що допоможе швидше вигнати клятих окупантів з рідних земель.</p>
+    </section>
+
+    <section class="features-section">
+        <h2>Чому обирають нас</h2>
+        <br>
+        <div class="features-container">
+            <div class="feature-item">
+                <h3>Висока якість</h3>
+                <p>Кожен дрон проходить суворий контроль якості, щоб забезпечити надійність і довговічність.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Індивідуальні рішення</h3>
+                <p>Ми пропонуємо кастомізацію дронів відповідно до ваших потреб і вимог.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Підтримка 24/7</h3>
+                <p>Наша служба підтримки готова допомогти вам у будь-який час дня і ночі.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <h2>Популярні продукти</h2>
+        <br>
+        <div class="products-container">
+            {% for item in items %}
+                <a href="{{ url_for('item_detail', item_id=item.id) }}" class="product-link">
+                    <div class="product-item">
+                        <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                        <h3>{{ item.name }}</h3>
+                        <p>{{ item.price }} грн</p>
+                        <a href="{{ url_for('item_detail', item_id=item.id) }}" class="btn">Докладніше</a>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <h2>Зв'яжіться з нами</h2>
+        <p>У вас є питання? Ми завжди готові допомогти. Зв'яжіться з нами будь-яким зручним для вас способом.</p>
+        <form action="{{ url_for('email_send') }}" method="POST" class="contact-form">
+            <label for="name">Ім'я</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Повідомлення</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit" class="btn">Відправити</button>
+        </form>
+    </section>
+{% endblock %}

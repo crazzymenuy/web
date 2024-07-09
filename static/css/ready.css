@@ -1,0 +1,39 @@
+.ready-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+}
+
+.ready-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.ready-container p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* Медиазапросы для мобильных устройств */
+@media (max-width: 768px) {
+    .ready-container {
+        padding: 10px;
+        margin: 20px auto;
+    }
+
+    .ready-container h1 {
+        font-size: 1.5em;
+    }
+
+    .ready-container p {
+        font-size: 1em;
+    }
+}

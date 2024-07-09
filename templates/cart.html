@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Кошик</h2>
+    {% if not items %}
+        <p>Ваш кошик порожній.</p>
+    {% else %}
+        <div class="cart-items">
+            {% for item in items %}
+                <div class="cart-item">
+                    <h3>{{ item.name }}</h3>
+                    <p class="price">{{ item.price }} грн</p>
+                    <p class="quantity">Кількість: {{ cart[str(item.id)] }}</p>
+                    <p class="total-price">Всього: {{ item.price * cart[str(item.id)] }} грн</p>
+                    {% if item.image_url %}
+                        <div class="image-container">
+                            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                        </div>
+                    {% endif %}
+                    <form action="{{ url_for('remove_from_cart', item_id=item.id) }}" method="POST" style="margin-top: 10px;">
+                        <button type="submit" class="btn remove-button">Видалити</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="cart-total">
+            <h3>Загальна вартість: {{ total_cost }} грн</h3>
+        </div>
+        <form action="{{ url_for('place_order') }}" method="POST">
+            <div class="form-group">
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Номер телефону:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <button type="submit" class="btn order-button">Замовити</button>
+        </form>
+    {% endif %}
+{% endblock %}

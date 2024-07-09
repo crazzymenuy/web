@@ -1,0 +1,53 @@
+form {
+    background-color: #1e1e1e;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+form input, form textarea, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #333333;
+    background-color: #444444;
+    color: #ffffff;
+}
+
+form button {
+    background-color: #555555;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #666666;
+}
+
+.flash {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.flash.success {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+.flash.error {
+    background-color: #f44336;
+    color: #ffffff;
+}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ready-container">
+    <h1>{{ name }} дякуємо за ваше замовлення!</h1>
+    <p>Ваше замовлення успішно оформлено. Ми зв'яжемося з вами найближчим часом для підтвердження за цим номером {{ phone }}</p>
+    <h3>Список товарів, що були замовлені:</h3>
+    <ul>
+        {% for item in items %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ready.css') }}">
+{% endblock %}

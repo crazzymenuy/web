@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Панель Администратора</h2>
+    <div class="admin-actions">
+        <a href="{{ url_for('add_post') }}" class="btn">Добавить Пост</a>
+        <a href="{{ url_for('add_item') }}" class="btn">Добавить Товар</a>
+    </div>
+
+    <h3>Посты</h3>
+    <div class="posts">
+        {% for post in posts %}
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                {% if post.image_url %}
+                    <img src="{{ post.image_url }}" alt="{{ post.title }}">
+                {% endif %}
+                <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post">
+                    <span style="display: none;">{{ csrf_token() }}</span>
+                    <button type="submit" class="btn delete-button">Удалить</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h3>Товары</h3>
+    <div class="shop-items">
+        {% for item in items %}
+            <div class="shop-item">
+                <h3>{{ item.name }}</h3>
+                <p class="price">{{ item.price }} ₽</p>
+                <p>{{ item.description }}</p>
+                {% if item.image_url %}
+                    <div class="image-container">
+                        <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                    </div>
+                {% endif %}
+                <form action="{{ url_for('delete_item', item_id=item.id) }}" method="post">
+                    <span style="display: none;">{{ csrf_token() }}</span>
+                    <button type="submit" class="btn delete-button">Удалить</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

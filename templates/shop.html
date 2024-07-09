@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Drone Xtreme Dare To Drone Differently</h2>
+    <br>
+    <div class="shop-items">
+        {% for item in items %}
+            <div class="shop-item" id="item_{{ item.id }}" onclick="window.location='{{ url_for('item_detail', item_id=item.id) }}'">
+                <h3>{{ item.name }}</h3>
+                <p class="price">{{ item.price }} грн</p>
+                <p class="description">{{ item.description[:100] }}{% if item.description|length > 100 %}...{% endif %}</p>
+                {% if item.image_url %}
+                    <div class="image-container">
+                        <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                    </div>
+                {% endif %}
+                <div class="button-container">
+                    <a href="javascript:void(0);" class="btn buy-button" onclick="event.stopPropagation(); openModal('{{ item.id }}', '{{ item.name }}', '{{ item.price }}');">Купити</a>
+                    <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="POST" style="display: inline;" onsubmit="event.stopPropagation();">
+                        <button type="submit" class="btn cart-button">В кошик</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Модальне вікно -->
+    <div id="buyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalItemName"></h2>
+            <p id="modalItemPrice"></p>
+            <form id="buyForm" action="{{ url_for('process_order2') }}" method="POST" onsubmit="handleSubmit(event)">
+                <input type="hidden" name="item_id" id="modalItemId">
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="phone">Номер телефону:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <button type="submit" class="btn">Замовити</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        function openModal(itemId, itemName, itemPrice) {
+            document.getElementById('modalItemId').value = itemId;
+            document.getElementById('modalItemName').innerText = itemName;
+            document.getElementById('modalItemPrice').innerText = itemPrice + ' грн';
+            document.getElementById('buyModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('buyModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('buyModal')) {
+                closeModal();
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const actionUrl = form.action;
+            fetch(actionUrl, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data && data.message) {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при обработке вашего заказа.');
+            });
+        }
+    </script>
+{% endblock %}

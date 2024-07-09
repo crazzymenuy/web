@@ -1,0 +1,27 @@
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-link {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #ffffff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link.instagram { background-color: #E4405F; }
+.social-link.viber { background-color: #665CAC; }
+.social-link.telegram { background-color: #0088cc; }
+.social-link.whatsapp { background-color: #25D366; }
+.social-link.tiktok { background-color: #010101; }
+.social-link.youtube { background-color: #FF0000; }
+
+.social-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
